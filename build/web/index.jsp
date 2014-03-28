@@ -1,26 +1,263 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-         <form method="POST" action="TheNameUserSees" >
-            <p>Select beer characteristics</p>
-            Color:
-            <select name="color">
-                <option value="brown">Brown</option>
-                <option value="dark">Dark</option>
-            </select>
-            <br>
-            Comments<br><textarea cols="50" rows="4" name="comments" >asdfasdf</textarea><br>
-            <input type="checkbox" name="interest" value="a">a<br>
-            <input type="checkbox" name="interest" value="b">b<br>
-            <input type="checkbox" name="interest" value="c">c<br>
-            <input type="submit" />
-            
-        </form>
-    </body>
+<head>
+<meta charset="UTF-8">
+<title>CSE 336 Form</title>
+<!--<link rel="stylesheet" type="text/css" href="styles.css">-->
+<style>
+form    {
+margin:auto;
+position:relative;
+width:480px;
+height:500px;
+font-family: Tahoma, Geneva, sans-serif;
+font-size: 14px;
+font-style: italic;
+line-height: 30px;
+font-weight: bold;
+color: #09C;
+border-radius: 40px;
+padding:40px;
+border: 1px solid #999;
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+.errorInput{
+background: #F08080;
+}
+.ass{
+color:red;
+}
+.errorLabel{
+color: #d00;
+font-style: italic;
+font-size: 10px;
+}
+input[type="submit"]{
+width:100px;
+background:#09C;
+color:#fff;
+}
+input[type="submit"]:hover {
+background: #fff;
+color: #09C;
+}
+#banner{
+	width: 18%;
+	height: auto;
+	padding-bottom: -40px;
+	margin-bottom: -40px;
+	position: relative;
+	left: -20px;
+	top: -20px;
+	
+}
+</style>
+<script>
+var valid = true;
+function validateForm(){
+	var a = checkBoxValues();
+	var label = document.getElementById("checkBoxError");
+	if(a.length == 0){
+		label.innerHTML = "Must check at least one";
+		return false;
+	}
+	if(valid)
+	return true;
+	else
+	return false;
+	/*
+	var labelOutput = document.getElementById("output");
+	for(var i = 0;i < a.length;i++){
+		labelOutput.appendChild(document.createTextNode(a[i]));
+		labelOutput.appendChild(document.createElement("br"));
+	}
+	*/
+	
+}
+function checkBoxValues(){
+	var checkBoxValues = [];
+	var checkedBoxes = document.getElementsByName("interest");
+	for(var i = 0;i < checkedBoxes.length;i++){
+		if(checkedBoxes[i].checked == true){
+			checkBoxValues.push(checkedBoxes[i].value);
+		}
+	}
+	return checkBoxValues;
+}
+function validateFirstName(){
+	var label = document.getElementById("fNameError");
+	if(document.getElementById("firstname").value == ""){
+	label.innerHTML = "";
+	document.getElementById("firstname").className = "input_element";
+	}else if(!document.getElementById("firstname")[0].value.match(/^[a-zA-Z]+$/) ){
+	label.innerHTML = "Name must only contain letters";
+	valid = false;
+	document.getElementById("firstname").className = "errorInput";
+	}else{
+	label.innerHTML = "";
+	document.getElementById("firstname").className = "input_element";
+		valid = true;
+	}
+}
+
+function validateLastName(){
+	var label = document.getElementById("lNameError");
+	if(document.getElementById("lastname").value == ""){
+	label.innerHTML = "";
+	document.getElementById("lastname").className = "input_element";
+	}else if(!document.getElementById("lastname").value.match(/^[a-zA-Z]+$/) ){
+	label.innerHTML = "Name must only contain letters";
+	valid = false;
+	document.getElementById("lastname").className = "errorInput";
+	}else{
+	label.innerHTML = "";
+	document.getElementById("lastname").className = "input_element";
+		valid = true;
+	}
+}
+function validateEmail(){
+	var label = document.getElementById("emailError");
+	if(document.getElementById("email").value == ""){
+	label.innerHTML = "";
+	document.getElementById("email").className = "input_element";
+	}else if(!document.getElementById("email").value.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+	label.innerHTML = "Invalid email address";
+	valid = false;
+	document.getElementById("email").className = "errorInput";
+	}else{
+	label.innerHTML = "";
+	document.getElementById("email").className = "input_element";
+	valid = true;
+	}
+
+}
+function validateTelephone(){
+	var label = document.getElementById("telephoneError");
+	var input = document.getElementById("telephone").value;
+	if(input == ""){
+	label.innerHTML = "";
+	document.getElementById("telephone").className = "input_element";
+	return;
+	}
+	input = input.replace(/[^\d]/g,"");
+	if(input.length != 10){
+	label.innerHTML = "Number must be 10 digits";
+	document.getElementById("telephone").className = "errorInput";
+	valid = false;
+	}else{
+	label.innerHTML = "";
+	document.getElementById("telephone").className = "input_element";
+		valid = true;
+	}
+}
+function validateCheckBox(){
+	var boxes = document.getElementsByName("interest");
+	var label = document.getElementById("checkBoxError");
+	for(var i = 0;i < boxes.length;i++){
+		if(boxes[i].checked){
+			label.innerHTML = "";
+			return;
+			}
+	}
+	label.innerHTML = "Must check at least one";
+	
+}
+var numNodes = 0;
+function countNodes(){
+	var x = document.getElementsByTagName("html")[0];
+	nextLevel(x);
+	document.write(numNodes);
+	}
+function nextLevel(n){
+	if(n instanceof HTMLElement && n.getAttribute("type") == "text"){
+		numNodes = numNodes + 1;
+	}
+	if(n.hasChildNodes()){
+	var a = n.childNodes;
+		for(var i = 0;i < a.length;i++){
+			nextLevel(a[i]);
+		}
+	}
+	return;
+}
+var req;
+function validateEmailS(){
+    var errorMsg = document.getElementById("emailError");
+    var input = document.getElementById("email");
+    var url = "http://localhost:8080/SimpleServlet?email="+input.value;
+    //errorMsg.innerHTML="validateEmailS called";
+    req = new XMLHttpRequest();
+    req.onreadystatechange = emailValidation;
+    req.open("GET","SimpleServlet",true);
+    req.send(null);
+}
+function emailValidation(){
+    var errorMsg = document.getElementById("emailError");
+    errorMsg.innerHTML="emailValidation called";
+    errorMsg.innerHTML = (req.responseText==null) + " " + req.readyState + " " + req.status + " " ;
+    var input = document.getElementById("email");
+    if(req != null && req.readyState == 4 && req.status == 200){
+        if(req.responseText!='ok'){
+            errorMsg.innerHTML = req.responseText;
+            input.focus()
+        }else{
+            errorMsg.innerHTML = "else";
+        }
+    }
+}
+</script>
+</head>
+<body>
+<form method="post" action="static.html" onsubmit="return validateForm()" >
+<img src="img/banner.png" id="banner" alt="banner">
+<h2>* Denotes required field</h2>
+<label>
+	<span>
+		Email:<span class="ass">*</span>
+	</span>
+<input type="text" class="input_element" id="email" onblur="validateEmailS()" placeholder="superman@gmail.com" autofocus required/><span id="emailError" class="errorLabel"></span><br>
+</label>
+<label>
+	<span>
+		First Name:<span class="ass">*</span>	
+	</span>
+<input type="text" class="input_element" id="firstname" onblur="validateFirstName()" placeholder="Kevin" /><span id="fNameError" class="errorLabel" ></span><br>
+</label>
+<label>
+	<span>
+		Last Name:<span class="ass">*</span>
+	</span>
+<input type="text" class="input_element" id="lastname" onblur="validateLastName()" placeholder="Qi" required /><span id="lNameError" class="errorLabel"></span><br>
+</label>
+
+<label>
+	<span>
+		Company:
+	</span>
+<input type="text" class="input_element" name="company" placeholder="Google" /><br>
+</label>
+<label>
+	<span>
+		Country:<span class="ass">*</span>
+	</span>
+	<select class="input_element" name="countries" >
+<option value="USA">USA</option>
+<option value="China">China</option>
+<option value="Malaysia">Malaysia</option>
+<option value="Norway">Norway</option>
+<option value="Brazil">Brazil</option>
+</select><br>
+</label>
+<label>Telephone:<span class="ass">*</span></label>
+<input type="text" class="input_element" name="telephone" onblur="validateTelephone()" placeholder="(111) 111 1111" required /><span id="telephoneError" class="errorLabel"></span><br>
+<label>I am interested in:<span class="ass">*</span></label><span id="checkBoxError" class="errorLabel"></span><br>
+					<input type="checkbox" name="interest" value="movies" onchange="validateCheckBox()" />Movies<br>
+					<input type="checkbox" name="interest" value="tv" onchange="validateCheckBox()"/>TV<br>
+					<input type="checkbox" name="interest" value="soap" onchange="validateCheckBox()"/>Soap<br>
+					<input type="checkbox" name="interest" value="lions" onchange="validateCheckBox()"/>Lions<br>
+
+<input type="submit" id="submit_button"  name="Submit">
+<label id="output" ></label>
+</form>
+</body>
 </html>
