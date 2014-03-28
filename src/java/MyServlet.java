@@ -35,12 +35,22 @@ public class MyServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             String email = request.getParameter("email");
-            if(email.equals("")){
-                out.print("Please enter your email");
-            }else{
-                out.print("ok");
-            }
+            String firstname = request.getParameter("firstname");
             
+            if(email != null){
+               
+                if(!email.contains("@") && !email.equals("")){
+                    out.print("Please enter a valid email");
+                }else{
+                    out.print("ok");
+                }
+            }else if(firstname != null){
+                if(firstname.matches("[a-zA-Z]+") || firstname.equals("")){
+                    out.print("ok");
+                }else if(!firstname.equals("")){
+                    out.print("Please enter a valid name");
+                }
+            }
         } finally {
             out.close();
         }

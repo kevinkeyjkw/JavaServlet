@@ -193,13 +193,34 @@ function validateEmailS(){
 }
 function emailValidation(){
     var errorMsg = document.getElementById("emailError");
-    errorMsg.innerHTML="emailValidation called";
-    errorMsg.innerHTML = (req.responseText==null) + " " + req.readyState + " " + req.status + " " ;
+    //errorMsg.innerHTML="emailValidation called";
+    //errorMsg.innerHTML = (req.responseText==null) + " " + req.readyState + " " + req.status + " " ;
     var input = document.getElementById("email");
     if(req != null && req.readyState == 4 && req.status == 200){
         if(req.responseText!='ok'){
             errorMsg.innerHTML = req.responseText;
-            input.focus()
+        }else{
+            errorMsg.innerHTML = "";
+        }
+    }
+}
+function validateFirstNameS(){
+    var errorMsg = document.getElementById("fNameError");
+    var input = document.getElementById("firstname");
+    
+    req = new XMLHttpRequest();
+    var url = "SimpleServlet?firstname="+input.value;
+    req.onreadystatechange = firstNameValidation;
+    req.open("GET",url,true);
+    req.send(null);
+}
+function firstNameValidation(){
+    var errorMsg = document.getElementById("fNameError");
+    var input = document.getElementById("firstname");
+    
+    if(req != null && req.readyState == 4 && req.status == 200){
+        if(req.responseText != "ok"){
+            errorMsg.innerHTML = req.responseText;
         }else{
             errorMsg.innerHTML = "";
         }
@@ -221,7 +242,7 @@ function emailValidation(){
 	<span>
 		First Name:<span class="ass">*</span>	
 	</span>
-<input type="text" class="input_element" id="firstname" onblur="validateFirstName()" placeholder="Kevin" /><span id="fNameError" class="errorLabel" ></span><br>
+<input type="text" class="input_element" id="firstname" onblur="validateFirstNameS()" placeholder="Kevin" /><span id="fNameError" class="errorLabel" ></span><br>
 </label>
 <label>
 	<span>
