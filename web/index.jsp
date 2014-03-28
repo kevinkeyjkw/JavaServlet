@@ -184,11 +184,11 @@ var req;
 function validateEmailS(){
     var errorMsg = document.getElementById("emailError");
     var input = document.getElementById("email");
-    var url = "http://localhost:8080/SimpleServlet?email="+input.value;
+    var url = "SimpleServlet?email="+input.value;
     //errorMsg.innerHTML="validateEmailS called";
     req = new XMLHttpRequest();
     req.onreadystatechange = emailValidation;
-    req.open("GET","SimpleServlet",true);
+    req.open("GET",url,true);
     req.send(null);
 }
 function emailValidation(){
@@ -201,7 +201,7 @@ function emailValidation(){
             errorMsg.innerHTML = req.responseText;
             input.focus()
         }else{
-            errorMsg.innerHTML = "else";
+            errorMsg.innerHTML = "";
         }
     }
 }
