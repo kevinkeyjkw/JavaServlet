@@ -38,6 +38,7 @@ public class MyServlet extends HttpServlet {
             String firstname = request.getParameter("firstname");
             String lastname = request.getParameter("lastname");
             String telephone = request.getParameter("telephone");
+            
             if(email != null){
                 if(!email.contains("@") && !email.equals("")){
                     out.print("Please enter a valid email");
@@ -57,9 +58,10 @@ public class MyServlet extends HttpServlet {
                     out.print("Please enter valid name");
                 }
             }else if(telephone != null){
-                System.out.println(telephone);
-                telephone = telephone.replaceAll("[^0-9]", "");
-                if(telephone.length() != 10 && !telephone.equals("")){
+                //System.out.println(telephone);
+                String alteredTelephone = telephone.replaceAll("[^0-9]", "");
+                 System.out.println(telephone);
+                if(alteredTelephone.length() != 10 && !telephone.equals("")){
                     out.print("Please enter a 10 digit phone number");
                 }else{
                     out.print("ok");
