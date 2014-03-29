@@ -226,6 +226,45 @@ function firstNameValidation(){
         }
     }
 }
+function validateLastNameS(){
+    var input = document.getElementById("lastname");
+    
+    req = new XMLHttpRequest();
+    var url = "SimpleServlet?lastname="+input.value;
+    req.onreadystatechange = lastNameValidation;
+    req.open("GET",url,true);
+    req.send(null);
+}
+function lastNameValidation(){
+   var errorMsg = document.getElementById("lNameError");
+    
+    if(req != null && req.readyState == 4 && req.status == 200){
+        if(req.responseText != "ok"){
+            errorMsg.innerHTML = req.responseText;
+        }else{
+            errorMsg.innerHTML = "";
+        }
+    } 
+}
+function validateTelephoneS(){
+    var errorMsg = document.getElementById("telephoneError");
+    var input = document.getElementById("telephone");
+    req = new XMLHttpRequest();
+    var url = "SimpleServlet?telephone="+input.value;
+    req.onreadystatechange = telephoneValidation;
+    req.open("GET",url,true);
+    req.send(null);
+}
+function telephoneValidation(){
+    var errorMsg = document.getElementById("telephoneError");
+    if(req!=null && req.readyState == 4 && req.status ==200 ){
+        if(req.responseText != 'ok'){
+            errorMsg.innerHTML = req.responseText;
+        }else{
+            errorMsg.innerHTML = "";
+        }
+    }
+}
 </script>
 </head>
 <body>
@@ -248,14 +287,14 @@ function firstNameValidation(){
 	<span>
 		Last Name:<span class="ass">*</span>
 	</span>
-<input type="text" class="input_element" id="lastname" onblur="validateLastName()" placeholder="Qi" required /><span id="lNameError" class="errorLabel"></span><br>
+<input type="text" class="input_element" id="lastname" onblur="validateLastNameS()" placeholder="Qi" required /><span id="lNameError" class="errorLabel"></span><br>
 </label>
 
 <label>
 	<span>
 		Company:
 	</span>
-<input type="text" class="input_element" name="company" placeholder="Google" /><br>
+<input type="text" class="input_element" id="company" placeholder="Google" /><br>
 </label>
 <label>
 	<span>
@@ -270,7 +309,7 @@ function firstNameValidation(){
 </select><br>
 </label>
 <label>Telephone:<span class="ass">*</span></label>
-<input type="text" class="input_element" name="telephone" onblur="validateTelephone()" placeholder="(111) 111 1111" required /><span id="telephoneError" class="errorLabel"></span><br>
+<input type="text" class="input_element" id="telephone" onblur="validateTelephoneS()" placeholder="(111) 111 1111" required /><span id="telephoneError" class="errorLabel"></span><br>
 <label>I am interested in:<span class="ass">*</span></label><span id="checkBoxError" class="errorLabel"></span><br>
 					<input type="checkbox" name="interest" value="movies" onchange="validateCheckBox()" />Movies<br>
 					<input type="checkbox" name="interest" value="tv" onchange="validateCheckBox()"/>TV<br>
