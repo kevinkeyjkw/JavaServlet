@@ -201,15 +201,13 @@ function emailValidation(){
     var inputFName = document.getElementById("firstname");
     var inputLName = document.getElementById("lastname");
     var inputPhone = document.getElementById("telephone");
+    var inputCompany = document.getElementById("company");
     if(req != null && req.readyState == 4 && req.status == 200){
         /*String response = req.responseText.substring(1,req.responseText.length()-1);
         String [] a = response.split(":");
         errorMsg.innerHTML = req.responseText + " " + a[0];
             */
         if(req.responseText!='ok'){
-        //String response = req.responseText.substring(1,req.responseText.length()-1);
-        //String s = "HI";
-        //String [] a = response.split(":");
         
         var r = JSON.parse(req.responseText);
         
@@ -222,15 +220,11 @@ function emailValidation(){
                     inputLName.value = v;
                 }else if(key.toString() === "telephone"){
                     inputPhone.value = v;
-                }
-                
+                }else if(key.toString()==="company"){
+                    inputCompany.value = v;
+                }   
             }
-            
         }
-        //r = r.substring(1,r.length-1);
-        //var a = r.split(":");
-        //errorMsg.innerHTML = r ;
-        //inputFName.value =a[]
         }else{
             errorMsg.innerHTML="";
         }
@@ -239,7 +233,6 @@ function emailValidation(){
 function validateFirstNameS(){
     var errorMsg = document.getElementById("fNameError");
     var input = document.getElementById("firstname");
-    //errorMsg.innerHTML = "HELLlLLLLLLLLLLLL";
     
     req = new XMLHttpRequest();
     var url = "SimpleServlet?firstname="+input.value;
@@ -328,7 +321,7 @@ function telephoneValidation(){
 	<span>
 		Company:
 	</span>
-<input type="text" class="input_element" id="company" placeholder="Google" /><br>
+<input type="text" class="input_element" id="company" name="company" placeholder="Google" /><br>
 </label>
 <label>
 	<span>

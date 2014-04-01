@@ -2,12 +2,16 @@
 import java.io.Serializable;
 
 public class FormBean implements Serializable{
-    String fName="kevin";
-    String lName="qi";
-    String telephone="1231231234";
-    String email = "a@yahoo.com";
+    String fName;
+    String lName;
+    String telephone;
+    String email;
+    String company;
     public FormBean(){
         
+    }
+    public String getCompany(){
+        return company;
     }
     public String getfName(){
         return fName;
@@ -23,6 +27,9 @@ public class FormBean implements Serializable{
     }
     public void setfName(String a){
         fName = a;
+    }
+    public void setCompany(String a){
+        company = a;
     }
     public void setlName(String a){
         lName = a;

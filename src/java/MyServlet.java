@@ -52,6 +52,7 @@ public class MyServlet extends HttpServlet {
             fb.setTelephone(request.getParameter("telephone"));
             fb.setfName(request.getParameter("fname"));
             fb.setlName(request.getParameter("lname"));
+            fb.setCompany(request.getParameter("company"));
             if(context.getAttribute("counter") == null){
                 context.setAttribute("counter", counter);
             }
@@ -82,24 +83,27 @@ public class MyServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         //Check if email is in FormBean, if so return JSON object, when submit is clicked, it goes through doPost
-        String email = request.getParameter("email");
+            String email = request.getParameter("email");
             String firstname = request.getParameter("firstname");
             String lastname = request.getParameter("lastname");
             String telephone = request.getParameter("telephone");
+            String company = request.getParameter("company");
             PrintWriter out = response.getWriter();
             FormBean []formArray = (FormBean[])this.getServletContext().getAttribute("formBeanArray");
             if(email != null && formArray != null){
                 //System.out.println("Email"+fb.getEmail());
                 for(int i = 0;i < formArray.length;i++){
                     FormBean bean = formArray[i];
-                if(bean != null && email.equals(bean.getEmail())){
-                    JSONObject job = new JSONObject();
-                    job.put("firstname", bean.getfName());
-                    job.put("lastname", bean.getlName());
-                    job.put("telephone", bean.getTelephone());
-                    out.print(job.toString());
-                    out.flush();
-                }
+                    if(bean != null && email.equals(bean.getEmail())){
+                        JSONObject job = new JSONObject();
+                        job.put("firstname", bean.getfName());
+                        job.put("lastname", bean.getlName());
+                        job.put("telephone", bean.getTelephone());
+                        if(bean.getCompany()!=null)
+                            job.put("company", bean.getCompany());
+                        out.print(job.toString());
+                        out.flush();
+                    }
                 }
                 /*
                 if(!email.contains("@") && !email.equals("")){
