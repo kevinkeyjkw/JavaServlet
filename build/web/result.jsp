@@ -13,5 +13,6 @@
     </head>
     <body>
         <h1>Form successfully submitted!</h1>
+        <button onclick="location.href='index.jsp'" >Click me to go back to form!</button>
     </body>
 </html>

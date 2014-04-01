@@ -21,7 +21,8 @@ import org.json.simple.JSONObject;
  */
 @WebServlet(urlPatterns = {"/MyServlet"})
 public class MyServlet extends HttpServlet {
-
+    final static int MAX=100;
+    public static int counter = 0;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,16 +40,26 @@ public class MyServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             ServletContext context = this.getServletContext();
-            FormBean fb = (FormBean)context.getAttribute("formBean");
-            if(fb == null){
-                fb = new FormBean();
-                context.setAttribute("formBean", fb);
+            FormBean [] formArray = (FormBean[])context.getAttribute("formBeanArray");
+            
+            if(formArray == null){
+                formArray = new FormBean[MAX];
+                context.setAttribute("formBeanArray", formArray);
             }
+            
+            FormBean fb = new FormBean();
             fb.setEmail(request.getParameter("email"));
             fb.setTelephone(request.getParameter("telephone"));
             fb.setfName(request.getParameter("fname"));
             fb.setlName(request.getParameter("lname"));
-            System.out.println(fb.getEmail());
+            if(context.getAttribute("counter") == null){
+                context.setAttribute("counter", counter);
+            }
+            formArray[(Integer)context.getAttribute("counter")] = fb;
+            counter++;
+            System.out.println(counter+" " + context.getAttribute("counter"));
+            context.setAttribute("counter", counter);
+            //System.out.println(fb.getEmail());
             RequestDispatcher rd = request.getRequestDispatcher("result.jsp");
             rd.forward(request, response);
             
@@ -76,15 +87,19 @@ public class MyServlet extends HttpServlet {
             String lastname = request.getParameter("lastname");
             String telephone = request.getParameter("telephone");
             PrintWriter out = response.getWriter();
-            FormBean fb = (FormBean)this.getServletContext().getAttribute("formBean");
-            if(email != null){
-                System.out.println("Email"+fb.getEmail());
-                if(email.equals(fb.getEmail())){
+            FormBean []formArray = (FormBean[])this.getServletContext().getAttribute("formBeanArray");
+            if(email != null && formArray != null){
+                //System.out.println("Email"+fb.getEmail());
+                for(int i = 0;i < formArray.length;i++){
+                    FormBean bean = formArray[i];
+                if(bean != null && email.equals(bean.getEmail())){
                     JSONObject job = new JSONObject();
-                    job.put("firstname", fb.getfName());
-                    job.put("lastname", fb.getlName());
-                    job.put("telephone", fb.getTelephone());
+                    job.put("firstname", bean.getfName());
+                    job.put("lastname", bean.getlName());
+                    job.put("telephone", bean.getTelephone());
                     out.print(job.toString());
+                    out.flush();
+                }
                 }
                 /*
                 if(!email.contains("@") && !email.equals("")){
