@@ -185,11 +185,12 @@ function validateEmailS(){
     var errorMsg = document.getElementById("emailError");
     var input = document.getElementById("email");
     var url = "SimpleServlet?email="+input.value;
-    //errorMsg.innerHTML="validateEmailS called";
+  
     req = new XMLHttpRequest();
     req.onreadystatechange = emailValidation;
     req.open("GET",url,true);
     req.send(null);
+    
 }
 function emailValidation(){
     var errorMsg = document.getElementById("emailError");
@@ -198,21 +199,23 @@ function emailValidation(){
     var input = document.getElementById("email");
     if(req != null && req.readyState == 4 && req.status == 200){
         if(req.responseText!='ok'){
-            errorMsg.innerHTML = req.responseText;
+            errorMsg.innerHTML=req.responseText;
         }else{
-            errorMsg.innerHTML = "";
+            errorMsg.innerHTML="";
         }
     }
 }
 function validateFirstNameS(){
     var errorMsg = document.getElementById("fNameError");
     var input = document.getElementById("firstname");
+    errorMsg.innerHTML = "HELLlLLLLLLLLLLLL";
     
     req = new XMLHttpRequest();
     var url = "SimpleServlet?firstname="+input.value;
     req.onreadystatechange = firstNameValidation;
     req.open("GET",url,true);
     req.send(null);
+    
 }
 function firstNameValidation(){
     var errorMsg = document.getElementById("fNameError");
@@ -268,7 +271,7 @@ function telephoneValidation(){
 </script>
 </head>
 <body>
-<form method="post" action="static.html" onsubmit="return validateForm()" >
+<form method="post" action="SimpleServlet" onsubmit="return validateForm()" >
 <img src="img/banner.png" id="banner" alt="banner">
 <h2>* Denotes required field</h2>
 <label>
