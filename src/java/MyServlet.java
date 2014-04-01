@@ -6,6 +6,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,44 +38,20 @@ public class MyServlet extends HttpServlet {
         
         PrintWriter out = response.getWriter();
         try {
-            
-            
-            
-            String email = request.getParameter("email");
-            String firstname = request.getParameter("firstname");
-            String lastname = request.getParameter("lastname");
-            String telephone = request.getParameter("telephone");
-            
-            
-            if(email != null){
-                if(!email.contains("@") && !email.equals("")){
-                    out.print("Please enter a valid email");
-                }else{
-                    out.print("ok");
-                }
-            }else if(firstname != null){
-                if(firstname.matches("[a-zA-Z]+") || firstname.equals("")){
-                    out.print("ok");
-                }else{
-                    out.print("Please enter a valid name");
-                }
-            }else if(lastname != null){
-                if(lastname.matches("[a-zA-Z]+") || lastname.equals("")){
-                    out.print("ok");
-                }else{
-                    out.print("Please enter valid name");
-                }
-            }else if(telephone != null){
-                //System.out.println(telephone);
-                String alteredTelephone = telephone.replaceAll("[^0-9]", "");
-                 System.out.println(telephone);
-                if(alteredTelephone.length() != 10 && !telephone.equals("")){
-                    out.print("Please enter a 10 digit phone number");
-                }else{
-                    out.print("ok");
-                }
-            
+            ServletContext context = this.getServletContext();
+            FormBean fb = (FormBean)context.getAttribute("formBean");
+            if(fb == null){
+                fb = new FormBean();
+                context.setAttribute("formBean", fb);
             }
+            fb.setEmail(request.getParameter("email"));
+            fb.setTelephone(request.getParameter("telephone"));
+            fb.setfName(request.getParameter("fname"));
+            fb.setlName(request.getParameter("lname"));
+            System.out.println(fb.getEmail());
+            RequestDispatcher rd = request.getRequestDispatcher("result.jsp");
+            rd.forward(request, response);
+            
         } finally {
             out.close();
         }
@@ -92,7 +69,52 @@ public class MyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        //Check if email is in FormBean, if so return JSON object, when submit is clicked, it goes through doPost
+        String email = request.getParameter("email");
+            String firstname = request.getParameter("firstname");
+            String lastname = request.getParameter("lastname");
+            String telephone = request.getParameter("telephone");
+            PrintWriter out = response.getWriter();
+            FormBean fb = (FormBean)this.getServletContext().getAttribute("formBean");
+            if(email != null){
+                System.out.println("Email"+fb.getEmail());
+                if(email.equals(fb.getEmail())){
+                    JSONObject job = new JSONObject();
+                    job.put("firstname", fb.getfName());
+                    job.put("lastname", fb.getlName());
+                    job.put("telephone", fb.getTelephone());
+                    out.print(job.toString());
+                }
+                /*
+                if(!email.contains("@") && !email.equals("")){
+                    out.print("Please enter a valid email");
+                }else{
+                    out.print("ok");
+                }*/
+            }else if(firstname != null){
+                if(firstname.matches("[a-zA-Z]+") || firstname.equals("")){
+                    out.print("ok");
+                }else{
+                    out.print("Please enter a valid name");
+                }
+            }else if(lastname != null){
+                if(lastname.matches("[a-zA-Z]+") || lastname.equals("")){
+                    out.print("ok");
+                }else{
+                    out.print("Please enter valid name");
+                }
+            }else if(telephone != null){
+                //System.out.println(telephone);
+                String alteredTelephone = telephone.replaceAll("[^0-9]", "");
+                 //System.out.println(telephone);
+                if(alteredTelephone.length() != 10 && !telephone.equals("")){
+                    out.print("Please enter a 10 digit phone number");
+                }else{
+                    out.print("ok");
+                }
+            
+            }
     }
 
     /**

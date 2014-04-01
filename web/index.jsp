@@ -185,7 +185,7 @@ function validateEmailS(){
     var errorMsg = document.getElementById("emailError");
     var input = document.getElementById("email");
     var url = "SimpleServlet?email="+input.value;
-  
+    //errorMsg.innerHTML = "validateEmailS called";
     req = new XMLHttpRequest();
     req.onreadystatechange = emailValidation;
     req.open("GET",url,true);
@@ -194,12 +194,43 @@ function validateEmailS(){
 }
 function emailValidation(){
     var errorMsg = document.getElementById("emailError");
+    
     //errorMsg.innerHTML="emailValidation called";
     //errorMsg.innerHTML = (req.responseText==null) + " " + req.readyState + " " + req.status + " " ;
-    var input = document.getElementById("email");
+    var inputEmail = document.getElementById("email");
+    var inputFName = document.getElementById("firstname");
+    var inputLName = document.getElementById("lastname");
+    var inputPhone = document.getElementById("telephone");
     if(req != null && req.readyState == 4 && req.status == 200){
+        /*String response = req.responseText.substring(1,req.responseText.length()-1);
+        String [] a = response.split(":");
+        errorMsg.innerHTML = req.responseText + " " + a[0];
+            */
         if(req.responseText!='ok'){
-            errorMsg.innerHTML=req.responseText;
+        //String response = req.responseText.substring(1,req.responseText.length()-1);
+        //String s = "HI";
+        //String [] a = response.split(":");
+        
+        var r = JSON.parse(req.responseText);
+        
+        for (var key in r){
+            if(r.hasOwnProperty(key)){
+                var v = r[key];
+                if(key.toString()==="firstname"){
+                    inputFName.value = v;
+                }else if(key.toString() === "lastname"){
+                    inputLName.value = v;
+                }else if(key.toString() === "telephone"){
+                    inputPhone.value = v;
+                }
+                
+            }
+            
+        }
+        //r = r.substring(1,r.length-1);
+        //var a = r.split(":");
+        //errorMsg.innerHTML = r ;
+        //inputFName.value =a[]
         }else{
             errorMsg.innerHTML="";
         }
@@ -208,7 +239,7 @@ function emailValidation(){
 function validateFirstNameS(){
     var errorMsg = document.getElementById("fNameError");
     var input = document.getElementById("firstname");
-    errorMsg.innerHTML = "HELLlLLLLLLLLLLLL";
+    //errorMsg.innerHTML = "HELLlLLLLLLLLLLLL";
     
     req = new XMLHttpRequest();
     var url = "SimpleServlet?firstname="+input.value;
@@ -278,19 +309,19 @@ function telephoneValidation(){
 	<span>
 		Email:<span class="ass">*</span>
 	</span>
-<input type="text" class="input_element" id="email" onblur="validateEmailS()" placeholder="superman@gmail.com" autofocus required/><span id="emailError" class="errorLabel"></span><br>
+<input type="text" class="input_element" id="email" onblur="validateEmailS()" name="email" placeholder="superman@gmail.com" autofocus required/><span id="emailError" class="errorLabel"></span><br>
 </label>
 <label>
 	<span>
 		First Name:<span class="ass">*</span>	
 	</span>
-<input type="text" class="input_element" id="firstname" onblur="validateFirstNameS()" placeholder="Kevin" /><span id="fNameError" class="errorLabel" ></span><br>
+<input type="text" class="input_element" id="firstname" onblur="validateFirstNameS()" name="fname" placeholder="Kevin" /><span id="fNameError" class="errorLabel" ></span><br>
 </label>
 <label>
 	<span>
 		Last Name:<span class="ass">*</span>
 	</span>
-<input type="text" class="input_element" id="lastname" onblur="validateLastNameS()" placeholder="Qi" required /><span id="lNameError" class="errorLabel"></span><br>
+<input type="text" class="input_element" id="lastname" onblur="validateLastNameS()" name="lname" placeholder="Qi" required /><span id="lNameError" class="errorLabel"></span><br>
 </label>
 
 <label>
@@ -312,7 +343,7 @@ function telephoneValidation(){
 </select><br>
 </label>
 <label>Telephone:<span class="ass">*</span></label>
-<input type="text" class="input_element" id="telephone" onblur="validateTelephoneS()" placeholder="(111) 111 1111" required /><span id="telephoneError" class="errorLabel"></span><br>
+<input type="text" class="input_element" id="telephone" onblur="validateTelephoneS()" name="telephone" placeholder="(111) 111 1111" required /><span id="telephoneError" class="errorLabel"></span><br>
 <label>I am interested in:<span class="ass">*</span></label><span id="checkBoxError" class="errorLabel"></span><br>
 					<input type="checkbox" name="interest" value="movies" onchange="validateCheckBox()" />Movies<br>
 					<input type="checkbox" name="interest" value="tv" onchange="validateCheckBox()"/>TV<br>
