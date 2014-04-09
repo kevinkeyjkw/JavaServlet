@@ -27,6 +27,13 @@ background: #F08080;
 .ass{
 color:red;
 }
+.terms{
+font-size: 8px;
+color: black;
+}
+#checkboxes{
+    padding-left:5em;
+}
 .errorLabel{
 color: #d00;
 font-style: italic;
@@ -54,17 +61,36 @@ color: #09C;
 </style>
 <script>
 var valid = true;
+function validateTermBox(){
+    	var label = document.getElementById("termErrorLabel");
+        var v = document.getElementById("termBox");
+        if(v.checked){
+            label.innerHTML = "";
+        }
+}
 function validateForm(){
-	var a = checkBoxValues();
+	var label = document.getElementById("termErrorLabel");
+        var v = document.getElementById("termBox");
+        if(v.checked){
+            return true;
+        }else{
+            label.innerHTML = "Please accept the terms and agreements.";
+            return false;
+        }
+        /*
+        var a = checkBoxValues();
 	var label = document.getElementById("checkBoxError");
 	if(a.length == 0){
 		label.innerHTML = "Must check at least one";
 		return false;
 	}
+        
 	if(valid)
 	return true;
 	else
 	return false;
+        */
+       
 	/*
 	var labelOutput = document.getElementById("output");
 	for(var i = 0;i < a.length;i++){
@@ -338,12 +364,14 @@ function telephoneValidation(){
 <label>Telephone:<span class="ass">*</span></label>
 <input type="text" class="input_element" id="telephone" onblur="validateTelephoneS()" name="telephone" placeholder="(111) 111 1111" required /><span id="telephoneError" class="errorLabel"></span><br>
 <label>I am interested in:<span class="ass">*</span></label><span id="checkBoxError" class="errorLabel"></span><br>
-					<input type="checkbox" name="interest" value="movies" onchange="validateCheckBox()" />Movies<br>
-					<input type="checkbox" name="interest" value="tv" onchange="validateCheckBox()"/>TV<br>
-					<input type="checkbox" name="interest" value="soap" onchange="validateCheckBox()"/>Soap<br>
-					<input type="checkbox" name="interest" value="lions" onchange="validateCheckBox()"/>Lions<br>
-
-<input type="submit" id="submit_button"  name="Submit">
+        <div id="checkboxes">
+                <input type="checkbox" name="interest" value="movies" onchange="validateCheckBox()" />Movies<br>
+                <input type="checkbox" name="interest" value="tv" onchange="validateCheckBox()"/>TV<br>
+                <input type="checkbox" name="interest" value="soap" onchange="validateCheckBox()"/>Soap<br>
+                <input type="checkbox" name="interest" value="lions" onchange="validateCheckBox()"/>Lions<br>
+        </div>
+<span class="terms"><input type="checkbox"class="terms" id="termBox" value="no" onchange="validateTermBox()"/>Accept the terms of the Oracle offer   <span id="termErrorLabel" class="errorLabel"></span></span><br>
+<input type="submit" id="submit_button"   name="Submit">
 <label id="output" ></label>
 </form>
 </body>
