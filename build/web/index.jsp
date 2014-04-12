@@ -77,27 +77,6 @@ function validateForm(){
             label.innerHTML = "Please accept the terms and agreements.";
             return false;
         }
-        /*
-        var a = checkBoxValues();
-	var label = document.getElementById("checkBoxError");
-	if(a.length == 0){
-		label.innerHTML = "Must check at least one";
-		return false;
-	}
-        
-	if(valid)
-	return true;
-	else
-	return false;
-        */
-       
-	/*
-	var labelOutput = document.getElementById("output");
-	for(var i = 0;i < a.length;i++){
-		labelOutput.appendChild(document.createTextNode(a[i]));
-		labelOutput.appendChild(document.createElement("br"));
-	}
-	*/
 	
 }
 function checkBoxValues(){
@@ -218,6 +197,10 @@ function validateEmailS(){
     req.send(null);
     
 }
+function t(){
+    var em = document.getElementById("emailError");
+    em.innerHTML = "blah";
+}
 function emailValidation(){
     var errorMsg = document.getElementById("emailError");
     
@@ -228,6 +211,7 @@ function emailValidation(){
     var inputLName = document.getElementById("lastname");
     var inputPhone = document.getElementById("telephone");
     var inputCompany = document.getElementById("company");
+    var inputTerm = document.getElementById("termBox");
     if(req != null && req.readyState == 4 && req.status == 200){
         /*String response = req.responseText.substring(1,req.responseText.length()-1);
         String [] a = response.split(":");
@@ -248,11 +232,15 @@ function emailValidation(){
                     inputPhone.value = v;
                 }else if(key.toString()==="company"){
                     inputCompany.value = v;
-                }   
+                }else if(key.toString()==="termBox"){
+                    errorMsg.innerHTML=v;
+                    if(v)
+                        inputTerm.checked = true;
+                }
             }
         }
         }else{
-            errorMsg.innerHTML="";
+            //errorMsg.innerHTML="";
         }
     }
 }
@@ -370,7 +358,7 @@ function telephoneValidation(){
                 <input type="checkbox" name="interest" value="soap" onchange="validateCheckBox()"/>Soap<br>
                 <input type="checkbox" name="interest" value="lions" onchange="validateCheckBox()"/>Lions<br>
         </div>
-<span class="terms"><input type="checkbox"class="terms" id="termBox" value="no" onchange="validateTermBox()"/>Accept the terms of the Oracle offer   <span id="termErrorLabel" class="errorLabel"></span></span><br>
+<span class="terms"><input type="checkbox"class="terms" id="termBox" value="" name="termBox" onchange="validateTermBox()"/>Accept the terms of the Oracle offer   <span id="termErrorLabel" class="errorLabel"></span></span><br>
 <input type="submit" id="submit_button"   name="Submit">
 <label id="output" ></label>
 </form>

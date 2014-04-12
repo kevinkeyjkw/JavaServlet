@@ -12,7 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Form successfully submitted!</h1>
+        <jsp:useBean id="myBean" class="myPackage.CountBean" />
+        <h1>Form successfully submitted! ${myBean.fetchAndAdd()} ${myBean.fetchAndAdd()} ${header["user-agent"]}</h1>
         <button onclick="location.href='index.jsp'" >Click me to go back to form!</button>
     </body>
 </html>
