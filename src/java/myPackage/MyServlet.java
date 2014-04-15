@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 
 /**
@@ -55,7 +56,7 @@ public class MyServlet extends HttpServlet {
             fb.setfName(request.getParameter("fname"));
             fb.setlName(request.getParameter("lname"));
             if(request.getParameter("termBox")!=null)
-            fb.setChecked(true);
+                fb.setChecked(true);
             fb.setCompany(request.getParameter("company"));
             if(context.getAttribute("counter") == null){
                 context.setAttribute("counter", counter);
@@ -65,9 +66,28 @@ public class MyServlet extends HttpServlet {
             
             System.out.println(counter+" " + context.getAttribute("counter"));
             context.setAttribute("counter", counter);
-            //System.out.println(fb.getEmail());
-            RequestDispatcher rd = request.getRequestDispatcher("result.jsp");
+           
+            /*
+            HttpSession session = request.getSession();
+            session.setAttribute("fname", fb.getfName());
+            session.setAttribute("lname", fb.getlName());
+            session.setAttribute("email", fb.getEmail());
+            session.setAttribute("telephone", fb.getTelephone());
+            
+            RequestDispatcher rd = request.getRequestDispatcher("formJSP.jsp");
             rd.forward(request, response);
+            */
+            //Alternative using servletContext
+            /*RequestDispatcher dispatcher =
+            getServletContext().getRequestDispatcher(
+            "/SBUWeatherService.jsp");
+            */
+            //url = "result.jsp" relative to request object
+            //url = "/result.jsp" relative to root of Web
+    
+                //request.getSession().setAttribute("fname", fb.getfName());
+                //request.setAttribute("lname", fb.getlName());
+                response.sendRedirect("http://localhost:8080/JavaServlet/result.jsp?name=fab&last=ulous");
             
         } finally {
             out.close();

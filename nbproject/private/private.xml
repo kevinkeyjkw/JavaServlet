@@ -5,6 +5,7 @@
         <group>
             <file>file:/Users/Kevin/NetBeansProjects/JavaServlet/src/java/myPackage/FormBean.java</file>
             <file>file:/Users/Kevin/NetBeansProjects/JavaServlet/src/java/myPackage/MyServlet.java</file>
+            <file>file:/Users/Kevin/NetBeansProjects/JavaServlet/web/formJSP.jsp</file>
             <file>file:/Users/Kevin/NetBeansProjects/JavaServlet/web/index.jsp</file>
             <file>file:/Users/Kevin/NetBeansProjects/JavaServlet/web/result.jsp</file>
         </group>
